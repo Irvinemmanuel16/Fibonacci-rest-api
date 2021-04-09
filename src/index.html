@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fibonacci RestAPI</title>
+  </head>
+  <body>
+    <form style="padding: 16px 14px">
+      <label style="font-size: 18px">Ingrese el indice deseado</label>
+      <input type="text" id="index" />
+      <button type="submit">Enviar</button>
+      <p></p>
+    </form>
+    <script>
+      let form = document.querySelector('form');
+      let paragraph = document.querySelector('p');
+      let index = document.querySelector('#index');
+      form.addEventListener('submit', async e => {
+        e.preventDefault();
+        let value = parseInt(index.value);
+        if (isNaN(value) || value === null) {
+          return (paragraph.innerText = 'Debe ingresar un indice valido');
+        }
+        let response = await fetch(`/api/${value}`);
+        let data = await response.json();
+        console.log(data?.number);
+        paragraph.innerText =
+          data?.number || data?.number === 0
+            ? `El valor de Fibonacci es ${data?.number}`
+            : data?.error;
+      });
+    </script>
+  </body>
+</html>
